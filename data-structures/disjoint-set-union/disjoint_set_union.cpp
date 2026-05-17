@@ -9,10 +9,7 @@ struct DSU {
     DSU(T n) {
         parent.assign(n + 1, 0);
         size.assign(n + 1, 1);
-
-        for (T i = 0; i <= n; ++i) {
-            parent[i] = i;
-        }
+        for (T i = 0; i <= n; ++i) parent[i] = i;
     }
 
     T find(T u) {
@@ -23,13 +20,8 @@ struct DSU {
     void unite(T u, T v) {
         T pu = find(u);
         T pv = find(v);
-
         if (pu == pv) return;
-
-        if (size[pu] < size[pv]) {
-            std::swap(pu, pv);
-        }
-
+        if (size[pu] < size[pv]) std::swap(pu, pv);
         parent[pv] = pu;
         size[pu] += size[pv];
     }
