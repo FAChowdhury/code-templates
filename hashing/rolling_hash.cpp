@@ -5,7 +5,7 @@ using namespace std;
 // Assumes that nums[i] is non-negative.
 vector<int> rollingHash(vector<int> nums, int k) {
     using ull = unsigned long long;
-    ull BASE = 1e6+3; 
+    ull BASE = 1e6+3; // update this so that it is a prime number roughly equal to the number of unique characters in input array
     ull P = (1ULL<<31) - 1;
     vector<int> res;
     ull pow = 1;
