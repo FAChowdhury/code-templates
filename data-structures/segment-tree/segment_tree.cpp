@@ -6,28 +6,33 @@ public:
     vector<int> t;
     int n;
 
+    SegmentTree(int _n) {
+        n = _n;
+        t.resize(2*n, 0);
+    }
+
     SegmentTree(vector<int>& nums) {
         n = nums.size();
         t.resize(2*n);
         std::copy(nums.begin(), nums.end(), t.begin() + n);
-        for (int i = n-1; i > 0; --i) t[i] = t[2*i] + t[2*i + 1];
+        for (int i = n-1; i > 0; --i) t[i] = t[2*i] + t[2*i + 1]; //*
     }
     
-    void update(int index, int val) {
+    void modify(int index, int val) {
         index += n;
         t[index] = val;
         while (index > 1) {
             index /= 2;
-            t[index] = t[2*index] + t[2*index + 1];
+            t[index] = t[2*index] + t[2*index + 1]; //*
         }
     }
     
-    int sumRange(int left, int right) {
+    int query(int left, int right) {
         left += n; right += n;
         int sum = 0;
         while (left <= right) {
-            if (left&1) sum += t[left++];
-            if (right%2==0) sum += t[right--];
+            if (left&1) sum += t[left++]; //*
+            if (right%2==0) sum += t[right--]; //*
             left/=2;
             right/=2;
         }
