@@ -2,27 +2,36 @@
 using namespace std;
 
 struct SegmentTree {
+public:
     vector<int> t;
     int n;
 
-    SegmentTree(vector<int>& arr) {
-        n = arr.size();
+    SegmentTree(vector<int>& nums) {
+        n = nums.size();
         t.resize(2*n);
-        std::copy(arr.begin(), arr.end(), t.begin() + n);
-        for (int i = n - 1; i > 0; --i) t[i] = std::max(t[i<<1], t[i<<1|1]); // *
+        std::copy(nums.begin(), nums.end(), t.begin() + n);
+        for (int i = n-1; i > 0; --i) t[i] = t[2*i] + t[2*i + 1];
     }
-
-    void modify(int p, int value) {
-        for (t[p += n] = value; p > 1; p >>= 1) t[p>>1] = std::max(t[p], t[p^1]); // *
-    }
-
-    int query(int l, int r) { 
-        int res = -1;
-        for (l += n, r += n; l <= r; l >>= 1, r >>= 1) {
-            if (l&1) res = std::max(res, t[l++]); // *
-            if (!(r&1)) res = std::max(res, t[r--]); // *
+    
+    void update(int index, int val) {
+        index += n;
+        t[index] = val;
+        while (index > 1) {
+            index /= 2;
+            t[index] = t[2*index] + t[2*index + 1];
         }
-        return res;
+    }
+    
+    int sumRange(int left, int right) {
+        left += n; right += n;
+        int sum = 0;
+        while (left <= right) {
+            if (left&1) sum += t[left++];
+            if (right%2==0) sum += t[right--];
+            left/=2;
+            right/=2;
+        }
+        return sum;
     }
 };
 
