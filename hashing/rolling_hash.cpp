@@ -6,7 +6,7 @@ using ull = unsigned long long;
 // Assumes that nums[i] is non-negative.
 vector<ull> rollingHash(vector<int> nums, int k) {
     if (k > nums.size()) return {};
-    ull BASE = 1e6+3; // update this so that it is an odd prime number roughly >= to the number of unique characters in input array
+    ull BASE = 1e6+3; // odd prime number roughly >= number of unique characters in nums
     ull P = (1ULL<<31) - 1;
     vector<ull> res;
     ull pow = 1;
